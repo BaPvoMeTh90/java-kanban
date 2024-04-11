@@ -1,39 +1,32 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Epic extends Task{
-private  ArrayList <SubTask> subTasks = new ArrayList<>();
+private ArrayList<Integer> subTasks = new ArrayList<>();
 
     public Epic(String title, String description) {
-        super(title, description);
+        super(title,description, Status.NEW);
     }
 
-
-    public ArrayList<SubTask> getSubTasks() {
+    public ArrayList<Integer> getSubTasks() {
         return subTasks;
     }
 
     public void addSubTask(SubTask subTask){
-        subTasks.add(subTask);
+        subTasks.add(subTask.getTaskId());
     }
 
-    public Status updateStatus() {
-        int sumOfDone = 0;
-        boolean newOne = true;
-        for(SubTask subTask : subTasks) {
-            if (subTask.getTaskStatus().equals(Status.DONE)) {
-                ++sumOfDone;
-            } else if (subTask.getTaskStatus().equals(Status.IN_PROGRESS)) {
-                newOne = false;
-            }
-        }
-        if(!newOne){
-            return Status.IN_PROGRESS;
-        }else if(sumOfDone == subTasks.size()){
-            return Status.DONE;
-        }
-        return Status.NEW;
+    @Override
+    public String toString() {
+        return "Epic{" +
+                "subTasks=" + subTasks +
+                ", taskId=" + taskId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", taskStatus=" + taskStatus +
+                '}';
     }
+
 }

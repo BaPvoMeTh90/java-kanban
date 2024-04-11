@@ -1,20 +1,12 @@
 package model;
 
-import java.util.Objects;
 
 public class Task {
-    private int taskId;
-    private String title;
-    private String description;
+    protected int taskId;
+    protected String title;
+    protected String description;
     protected Status taskStatus;
 
-
-    public Task(int taskId, String title, String description, Status taskStatus) {
-        this.taskId = taskId;
-        this.title = title;
-        this.description = description;
-        this.taskStatus = taskStatus;
-    }
 
     public Task(String title, String description, Status taskStatus) {
         this.title = title;
@@ -27,9 +19,6 @@ public class Task {
         this.description = description;
     }
 
-    public Status getTaskStatus() {
-        return taskStatus;
-    }
     public int getTaskId() {
         return taskId;
     }
@@ -38,17 +27,28 @@ public class Task {
         this.taskId = taskId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return taskId == task.taskId && Objects.equals(title, task.title) && Objects.equals(description, task.description) && taskStatus == task.taskStatus;
+    public String getTitle() {
+        return title;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(taskId, title, description, taskStatus);
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Status getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(Status taskStatus) {
+        this.taskStatus = taskStatus;
     }
 
     @Override
@@ -60,4 +60,5 @@ public class Task {
                 ", taskStatus=" + taskStatus +
                 '}';
     }
+
 }
