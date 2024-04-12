@@ -5,11 +5,12 @@ public class SubTask extends Task {
         super(title, description, taskStatus);
         this.epicId = epic.getTaskId();
     }
+
     private int epicId;
 
-     public int getEpicId() {
-          return epicId;
-     }
+    public int getEpicId() {
+        return epicId;
+    }
 
     @Override
     public String toString() {
