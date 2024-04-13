@@ -16,6 +16,7 @@ public class Main {
         Task task2 = taskManager.getTask(taskId2);
         int epicId1 = taskManager.createEpic(new Epic("3", "3"));
         Epic epic1 = taskManager.getEpic(epicId1);
+        System.out.println("пустой эпик:" + epic1);
         int epicId2 = taskManager.createEpic(new Epic("4", "4"));
         Epic epic2 = taskManager.getEpic(epicId2);
         int subTaskId1 = taskManager.createSubTask(new SubTask("5", "5", Status.NEW, epic1));

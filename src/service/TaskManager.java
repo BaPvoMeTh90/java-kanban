@@ -169,6 +169,7 @@ public class TaskManager {
         int countOfNew = 0;
         if (statusOfSubTasks.isEmpty()) {
             epic.setTaskStatus(Status.NEW);
+            return;
         } else {
             for (int count : statusOfSubTasks)
                 if (subTasks.get(count).getTaskStatus().equals(Status.DONE)) {
