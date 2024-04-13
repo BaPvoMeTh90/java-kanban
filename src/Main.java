@@ -30,8 +30,9 @@ public class Main {
         task1.setTaskStatus(Status.DONE);
         System.out.println("таска 1 поменяла статус"+task1);
         subTask3.setTaskStatus(Status.DONE);
+        taskManager.updateSubTask(subTask3);
         System.out.println("суб таска поменяла статус"+subTask3);
-        System.out.println("эпик поенял статус"+epic2);
+        System.out.println("эпик поменял статус"+epic2);
         taskManager.deleteTask(task1.getTaskId());
         taskManager.deleteEpic(epic2.getTaskId());
         System.out.println("удалил таску осталась таска 2"+taskManager.getTasks());

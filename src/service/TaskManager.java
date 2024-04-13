@@ -134,19 +134,22 @@ public class TaskManager {
     }
 
     public void updateTask(Task task) {
-        if(tasks.containsKey(task.getTaskId())) {
+        if (tasks.containsKey(task.getTaskId())) {
             int taskId = task.getTaskId();
             tasks.put(taskId, task);
+        } else {
+            System.out.println("Такого задания нет");
         }
-        System.out.println("Такого задания нет");
     }
 
     public void updateSubTask(SubTask subTask) {
         if (subTasks.containsKey(subTask.getTaskId()) && epics.containsKey(subTask.getEpicId())) {
             int taskId = subTask.getTaskId();
             subTasks.put(taskId, subTask);
+            updateStatus(epics.get(subTask.getEpicId()));
+        } else {
+            System.out.println("Такого подзадания или эпика нет");
         }
-        System.out.println("Такого подзадания или эпика нет");
     }
 
     public void updateEpic(Epic epic) {
@@ -155,33 +158,34 @@ public class TaskManager {
             Epic oldEpic = epics.get(taskId);
             oldEpic.setTitle(epic.getTitle());
             oldEpic.setDescription(epic.getDescription());
+        } else {
+            System.out.println("Такого эпика нет");
         }
-        System.out.println("Такого эпика нет");
     }
 
     private void updateStatus(Epic epic) {
         List<Integer> statusOfSubTasks = epic.getSubTasks();
+        int countOfDone = 0;
+        int countOfNew = 0;
         if (statusOfSubTasks.isEmpty()) {
             epic.setTaskStatus(Status.NEW);
         } else {
-            int countOfDone = 0;
-            int countOfNew = 0;
-            for (int count : statusOfSubTasks) {
+            for (int count : statusOfSubTasks)
                 if (subTasks.get(count).getTaskStatus().equals(Status.DONE)) {
                     countOfDone++;
                 } else if (subTasks.get(count).getTaskStatus().equals(Status.NEW)) {
                     countOfNew++;
                 }
-                if (countOfDone == statusOfSubTasks.size()) {
-                    epic.setTaskStatus(Status.DONE);
-                } else if (countOfNew == statusOfSubTasks.size()) {
-                    epic.setTaskStatus(Status.NEW);
-                } else {
-                    epic.setTaskStatus(Status.IN_PROGRESS);
-                }
-            }
         }
-
+        if (countOfDone == statusOfSubTasks.size()) {
+            epic.setTaskStatus(Status.DONE);
+        } else if (countOfNew == statusOfSubTasks.size()) {
+            epic.setTaskStatus(Status.NEW);
+        } else {
+            epic.setTaskStatus(Status.IN_PROGRESS);
+        }
     }
 
+
 }
+
