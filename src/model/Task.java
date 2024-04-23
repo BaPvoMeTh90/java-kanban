@@ -1,6 +1,8 @@
 package model;
 
 
+import java.util.Objects;
+
 public class Task {
     protected int taskId;
     protected String title;
@@ -61,4 +63,15 @@ public class Task {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task task)) return false;
+        return taskId == task.taskId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskId);
+    }
 }

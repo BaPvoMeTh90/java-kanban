@@ -1,14 +1,19 @@
 import model.Epic;
 import model.SubTask;
-import service.TaskManager;
+import service.*;
 import model.Status;
 import model.Task;
+
+import java.util.List;
 
 
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
+
+        /*System.out.println("история: " + taskManager.getHistory());
+
 
         int taskId1 = taskManager.createTask(new Task("1", "1", Status.NEW));
         Task task1 = taskManager.getTask(taskId1);
@@ -17,6 +22,7 @@ public class Main {
         int epicId1 = taskManager.createEpic(new Epic("3", "3"));
         Epic epic1 = taskManager.getEpic(epicId1);
         System.out.println("пустой эпик:" + epic1);
+        System.out.println("история: " + taskManager.getHistory());
         int epicId2 = taskManager.createEpic(new Epic("4", "4"));
         Epic epic2 = taskManager.getEpic(epicId2);
         int subTaskId1 = taskManager.createSubTask(new SubTask("5", "5", Status.NEW, epic1));
@@ -24,6 +30,7 @@ public class Main {
         int subTaskId2 = taskManager.createSubTask(new SubTask("6", "6", Status.DONE, epic2));
         SubTask subTask2 = taskManager.getSubTask(subTaskId2);
         int subTaskId3 = taskManager.createSubTask(new SubTask("7", "7", Status.NEW, epic2));
+        System.out.println("история: " + taskManager.getHistory());
         SubTask subTask3 = taskManager.getSubTask(subTaskId3);
         System.out.println("список тасок:"+taskManager.getTasks());
         System.out.println("список субтасок:"+taskManager.getSubTasks());
@@ -39,8 +46,15 @@ public class Main {
         System.out.println("удалил таску осталась таска 2"+taskManager.getTasks());
         System.out.println("удалили эпик, поэтому удалены суб таски 6 и 7"+taskManager.getSubTasks());
         System.out.println("удалил эпик остался 1"+taskManager.getEpics());
-
-
+        System.out.println("история: " + taskManager.getHistory());*/
+        int taskId1 = taskManager.createTask(new Task("1", "1", Status.NEW));
+        Task task1 = taskManager.getTask(taskId1);
+        List<Task> befor = taskManager.getHistory();
+        System.out.println(befor);
+        task1.setDescription("Изменили описаине");
+        System.out.println(taskManager.getTask(taskId1));
+        List<Task> after = taskManager.getHistory();
+        System.out.println(after);
     }
 
 }
