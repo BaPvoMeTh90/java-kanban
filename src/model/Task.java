@@ -21,6 +21,20 @@ public class Task {
         this.description = description;
     }
 
+    public Task(int taskId, String title, String description, Status taskStatus) {
+        this.taskId = taskId;
+        this.title = title;
+        this.description = description;
+        this.taskStatus = taskStatus;
+    }
+
+    public Task(int taskId, String title, String description) {
+        this.taskId = taskId;
+        this.title = title;
+        this.description = description;
+    }
+
+
     public int getTaskId() {
         return taskId;
     }

@@ -12,9 +12,15 @@ class ManagersTest {
     Managers managers= new Managers();
 
     @Test
-    @DisplayName("не равен @Null при возврате")
-    void shouldEqualsNotNull(){
-        assertNotNull(managers);
+    @DisplayName("getDefaultHistory не равен @Null при возврате")
+    void shouldGetDefaultHistoryNotNull(){
+        assertNotNull(managers.getDefaultHistory());
+    }
+
+    @Test
+    @DisplayName("getDefault не равен @Null при возврате")
+    void shouldGetDefaultNotNull2(){
+        assertNotNull(managers.getDefault());
     }
 
 }

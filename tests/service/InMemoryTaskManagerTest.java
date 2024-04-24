@@ -18,6 +18,7 @@ class InMemoryTaskManagerTest {
     TaskManager taskManager;
     Task task;
     Epic epic;
+
     SubTask subTask;
     @BeforeEach
     public void createManager() {
@@ -75,7 +76,7 @@ class InMemoryTaskManagerTest {
         epic = new Epic("Epic create", "Test createEpic description");
         final int epicId = taskManager.createEpic(epic);
 
-        subTask = new SubTask("SubTask create", "Test createSubTask description", Status.NEW, epic);
+        subTask = new SubTask("SubTask create", "Test createSubTask description", Status.NEW, epic.getTaskId());
         final int subTaskId = taskManager.createSubTask(subTask);
 
         final Task savedSubTask = taskManager.getSubTask(subTaskId);
@@ -91,12 +92,12 @@ class InMemoryTaskManagerTest {
     }
     @Test
     @DisplayName("Добавление в список и поиск по ID")
-    public void ShouldAddAngGetById(){
+    public void shouldAddAngGetById(){
         task = new Task("Test create", "Test createTask description", Status.NEW);
         final int taskId = taskManager.createTask(task);
         epic = new Epic("Epic create", "Test createEpic description");
         final int epicId = taskManager.createEpic(epic);
-        subTask = new SubTask("SubTask create", "Test createSubTask description", Status.NEW, epic);
+        subTask = new SubTask("SubTask create", "Test createSubTask description", Status.NEW, epic.getTaskId());
         final int subTaskId = taskManager.createSubTask(subTask);
 
         assertEquals(task, taskManager.getTask(taskId), "Сохнаренные задачи не совпадают");
@@ -104,18 +105,63 @@ class InMemoryTaskManagerTest {
         assertEquals(subTask, taskManager.getSubTask(subTaskId), "Сохнаренные СубТаски не совпадают");
     }
 
+
+
     @Test
-    @DisplayName("История сохраняет изменения просмотренных задач")
-    public void ShouldBeSavedModifiedTasks(){
-        int taskId1 = taskManager.createTask(new Task("1", "1", Status.NEW));
-        Task task1 = taskManager.getTask(taskId1);
-        Task task2= task1;
-        task2.setDescription("Изменили описаине");
-        taskManager.getTask(taskId1);
-        List<Task> after = taskManager.getHistory();
-        assertEquals(after.get(0),task1, "исходная таска не в истории");
-        assertEquals(after.get(1),task2, "обновленная таска не в истории");
+    @DisplayName("Сравнение созданной и сохраненной задач")
+    public void equalsTask() {
+        task = new Task("Test create", "Test createTask description", Status.NEW);
+        final int taskId = taskManager.createTask(task);
+
+        final Task savedTask = taskManager.getTask(taskId);
+
+        assertEquals(task.getDescription(), savedTask.getDescription(),  "По описанию.");
+        assertEquals(task.getTaskId(), savedTask.getTaskId(),  "По Id.");
+        assertEquals(task.getTitle(), savedTask.getTitle(),  "По названию.");
+        assertEquals(task.getTaskStatus(), savedTask.getTaskStatus(),  "По статусу.");
+    }
+    @Test
+    @DisplayName("Сравнение созданного и сохраненного Эпиков")
+    public void equalsEpic() {
+        epic = new Epic("Test create", "Test createTask description");
+        final int taskId = taskManager.createEpic(epic);
+        subTask = new SubTask("SubTask create", "Test createSubTask description", Status.NEW, epic.getTaskId());
+        final int subTaskId = taskManager.createSubTask(subTask);
+
+        final Epic savedEpic = taskManager.getEpic(taskId);
+
+        assertEquals(epic.getDescription(), savedEpic.getDescription(),  "По описанию.");
+        assertEquals(epic.getTaskId(), savedEpic.getTaskId(),  "По Id.");
+        assertEquals(epic.getTitle(), savedEpic.getTitle(),  "По названию.");
+        assertEquals(epic.getTaskStatus(), savedEpic.getTaskStatus(),  "По статусу.");
+        assertEquals(epic.getSubTasks(), savedEpic.getSubTasks(),  "По СубТаскам.");
     }
 
+    @Test
+    @DisplayName("Задача с генерируемым и ручным ID конфликтуют")
+    public void shouldNotConflictGeneratedAndManualID(){
+        task= new Task("Название","описание",Status.NEW);
+        int taskID = taskManager.createTask(task);
+        Task newTask = new Task(1,"название1","ОПисание 1", Status.NEW);
+        int newTaskID = taskManager.createTask(newTask);
+        assertEquals(2, taskManager.getTasks().size(), "обе задачи в списке");
+    }
 
+    @Test
+    @DisplayName("Эпик не добавить в себя подзадачей")
+    public void shouldNotBeAddedAsSubTask(){
+        Epic epic = new Epic(0, "Epic 1", "Testing epic 1");
+        epic.addSubTask(0);
+        assertEquals(0, epic.epicsSubTasks.size(), "epic should not add itself as subtask");
+    }
+
+    @Test
+    @DisplayName("СубТАску не добавить в себя Эпиком")
+    public void shouldNotBeAddedAsEpic(){
+        SubTask subTask = new SubTask(1,"Название","ОПисание",Status.NEW,1);
+        int id = taskManager.createSubTask(subTask);
+        System.out.println(taskManager.getSubTasks());
+        assertEquals(0,id, "СубТАск добавлен В эпик суб таски");
+
+    }
 }

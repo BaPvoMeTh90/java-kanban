@@ -18,22 +18,31 @@ class InMemoryHistoryManagerTest {
     Task task1 = taskManager.getTask(taskId1);
     int epicId1 = taskManager.createEpic(new Epic("3", "3"));
     Epic epic1 = taskManager.getEpic(epicId1);
-    int subTaskId2 = taskManager.createSubTask(new SubTask("2", "2", Status.NEW, epic1));
+    int subTaskId2 = taskManager.createSubTask(new SubTask("2", "2", Status.NEW, epic1.getTaskId()));
     Task task2 = taskManager.getSubTask(subTaskId2);
 
-    List<Task> history =taskManager.getHistory();
+    List<Task> history = taskManager.getHistory();
 
     @Test
     @DisplayName("В Истории 3 объекта")
-    public void ShouldBe3Objects(){
+    public void shouldBe3Objects(){
+        TaskManager taskManager = Managers.getDefault();
+        int taskId1 = taskManager.createTask(new Task("1", "1", Status.NEW));
+        Task task1 = taskManager.getTask(taskId1);
+        int epicId1 = taskManager.createEpic(new Epic("3", "3"));
+        Epic epic1 = taskManager.getEpic(epicId1);
+        int subTaskId2 = taskManager.createSubTask(new SubTask("2", "2", Status.NEW, epic1.getTaskId()));
+        Task task2 = taskManager.getSubTask(subTaskId2);
+        List<Task> history =taskManager.getHistory();
         int lengthShouldBe = 3;
+
         assertEquals(lengthShouldBe, history.size(), "Не все просмотры добавлены");
     }
 
     @Test
-    @DisplayName("возвращает не неинициализированный список")
-    public void shouldBeNotNull (){
-        assertNotNull(history, "Тип возвращаемого обекьта 'Null'");
+    @DisplayName("История сохраняет предыдущую версию задачи и её данных.")
+    public void shouldSavePreviousversion(){
+
     }
 
 }

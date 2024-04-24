@@ -2,25 +2,25 @@ package model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import service.Managers;
+import service.TaskManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @DisplayName("Эпик")
 class EpicTest {
-    static Epic epic =new Epic("название","описание");
-    Epic epicToComparison = new Epic("название", "описание");
+    TaskManager taskManager = Managers.getDefault();
+    Epic epic =new Epic("название","описание");
+    int epicId = taskManager.createEpic(epic);
+    Epic epicToComparison = new Epic(1,"название 1","Описание 1");
 
     @Test
     @DisplayName("Эпик должен совпадать с копией")
     void shouldBeEqualsToCopy (){
-        assertEqualsTask (epic, epicToComparison, "Сравнение по: ");
+        assertEquals(epic, epicToComparison, "Сравнение по id не успешно");
     }
 
-    private static void assertEqualsTask(Epic task, Epic taskToComparison, String text ){
-        assertEquals(task.getDescription(), taskToComparison.getDescription(), text + " описанию.");
-        assertEquals(task.getTaskId(), taskToComparison.getTaskId(), text + " Id.");
-        assertEquals(task.getTitle(), taskToComparison.getTitle(), text + " названию.");
-    }
+
 
 }

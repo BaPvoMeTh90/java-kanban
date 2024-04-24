@@ -125,12 +125,13 @@ public class InMemoryTaskManager implements TaskManager {
             subTask.setTaskId(generateId());
             subTasks.put(subTask.getTaskId(), subTask);
             Epic epic = epics.get(subTask.getEpicId());
-            epic.addSubTask(subTask);
+            epic.addSubTask(subTask.getTaskId());
             updateStatus(epic);
             return subTask.getTaskId();
+        }else {
+            System.out.println("Эпик отсутствует");
+            return 0;
         }
-        System.out.println("Эпик отсутствует");
-        return 0;
     }
 
     @Override
