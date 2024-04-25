@@ -14,12 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryHistoryManagerTest {
 
     TaskManager taskManager = Managers.getDefault();
-    int taskId1 = taskManager.createTask(new Task("1", "1", Status.NEW));
-    Task task1 = taskManager.getTask(taskId1);
-    int epicId1 = taskManager.createEpic(new Epic("3", "3"));
-    Epic epic1 = taskManager.getEpic(epicId1);
-    int subTaskId2 = taskManager.createSubTask(new SubTask("2", "2", Status.NEW, epic1.getTaskId()));
-    Task task2 = taskManager.getSubTask(subTaskId2);
 
     @Test
     @DisplayName("В Истории 3 объекта")
