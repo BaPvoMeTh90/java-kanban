@@ -21,8 +21,6 @@ class InMemoryHistoryManagerTest {
     int subTaskId2 = taskManager.createSubTask(new SubTask("2", "2", Status.NEW, epic1.getTaskId()));
     Task task2 = taskManager.getSubTask(subTaskId2);
 
-    List<Task> history = taskManager.getHistory();
-
     @Test
     @DisplayName("В Истории 3 объекта")
     public void shouldBe3Objects(){
@@ -37,12 +35,6 @@ class InMemoryHistoryManagerTest {
         int lengthShouldBe = 3;
 
         assertEquals(lengthShouldBe, history.size(), "Не все просмотры добавлены");
-    }
-
-    @Test
-    @DisplayName("История сохраняет предыдущую версию задачи и её данных.")
-    public void shouldSavePreviousversion(){
-
     }
 
 }

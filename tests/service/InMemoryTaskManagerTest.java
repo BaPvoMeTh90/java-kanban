@@ -25,11 +25,6 @@ class InMemoryTaskManagerTest {
         taskManager = Managers.getDefault();
 
     }
-    @AfterEach
-    public void clearHistory(){
-        List<Task> history = taskManager.getHistory();
-        history.clear();
-    }
 
     @Test
     @DisplayName("задача должна создаться")
