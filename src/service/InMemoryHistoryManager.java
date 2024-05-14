@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
     private static class Node {
         Task task;
         Node next;
@@ -26,7 +26,7 @@ public class InMemoryHistoryManager implements HistoryManager{
 
 
     @Override
-    public List<Task> getHistory(){
+    public List<Task> getHistory() {
         return getTasks();
 
     }
@@ -78,8 +78,9 @@ public class InMemoryHistoryManager implements HistoryManager{
             }
         }
     }
+
     @Override
-    public void historyAdd(Task task){
+    public void historyAdd(Task task) {
         Node node = history.get(task.getTaskId());
         if (node != null) {
             removeNode(node);
