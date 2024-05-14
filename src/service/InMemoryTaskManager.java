@@ -1,9 +1,9 @@
 package service;
 
+import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
-import model.Epic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTask(int id) {
         if (tasks.containsKey(id)) {
             tasks.remove(id);
+            historyManager.remove(id);
         } else {
             System.out.println("Такой задачи нет");
         }
@@ -66,6 +67,7 @@ public class InMemoryTaskManager implements TaskManager {
             Epic epic = epics.get(subT.getEpicId());
             epic.getSubTasks().remove((Integer) id);
             updateStatus(epic);
+            historyManager.remove(id);
         } else {
             System.out.println("Такой Подзадачи нет");
         }
@@ -80,6 +82,7 @@ public class InMemoryTaskManager implements TaskManager {
                 subTasks.remove(numbers);
             }
             epics.remove(id);
+            historyManager.remove(id);
         } else {
             System.out.println("Такой задачи нет");
         }
@@ -144,8 +147,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllTasks() {
+        for (Integer tasks : tasks.keySet()) {
+            historyManager.remove(tasks);
+        }
         tasks.clear();
-
     }
 
     @Override
@@ -154,12 +159,21 @@ public class InMemoryTaskManager implements TaskManager {
             epic.getSubTasks().clear();
             updateStatus(epic);
         }
+        for (Integer subTasks : subTasks.keySet()) {
+            historyManager.remove(subTasks);
+        }
         subTasks.clear();
 
     }
 
     @Override
     public void deleteAllEpic() {
+        for (Integer subTasks : subTasks.keySet()) {
+            historyManager.remove(subTasks);
+        }
+        for (Integer epics : epics.keySet()) {
+            historyManager.remove(epics);
+        }
         epics.clear();
         subTasks.clear();
     }
