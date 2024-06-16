@@ -10,9 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Эпик")
 class EpicTest {
-    TaskManager taskManager = Managers.getDefault();
+    TaskManager taskManagerEpic = Managers.getDefault();
+
     Epic epic = new Epic("название1", "описание1");
-    int taskId = taskManager.createEpic(epic);
+    int taskId = taskManagerEpic.createEpic(epic);
     Task taskToComparison = new Epic(1, "название", "описание");
 
     @Test
