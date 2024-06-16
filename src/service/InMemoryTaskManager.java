@@ -11,16 +11,12 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HistoryManager historyManager;
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HistoryManager historyManager;
 
-    int counter = 0;
-
-    void setCounter(int i) {
-        counter = i;
-    }
+    protected static int counter = 0;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;

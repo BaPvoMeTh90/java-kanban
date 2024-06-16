@@ -154,7 +154,6 @@ class InMemoryTaskManagerTest {
     @DisplayName("СубТаску не добавить в себя Эпиком")
     public void shouldNotBeAddedAsEpic(){
         int ids = taskManager.createSubTask(new SubTask(1, " ", " ", Status.NEW, 1));
-        taskManager.getSubTask(ids);
         assertEquals(null, taskManager.getSubTask(ids), "СубТаск добавлен В эпик суб таски");
 
     }

@@ -34,10 +34,6 @@ public class Task {
         this.description = description;
     }
 
-    public Integer getEpicId() {
-        return null;
-    }
-
     public TaskType getTaskType() {
         return TaskType.Task;
     }
@@ -74,7 +70,15 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-
+    public String toFileString() {
+        String[] string = {Integer.toString(getTaskId()),
+                getTaskType().toString(),
+                getTitle(),
+                getTaskStatus().toString(),
+                getDescription(),
+                ""};
+        return String.join(",", string);
+    }
     @Override
     public String toString() {
         return "Task{" +
