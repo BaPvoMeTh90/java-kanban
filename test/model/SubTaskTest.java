@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Субтаск")
 class SubTaskTest {
-    TaskManager taskManager = Managers.getDefault();
+    TaskManager taskManagerSubTask = Managers.getDefault();
 
     Epic epic = new Epic("название", "описание");
-    int epicId = taskManager.createEpic(epic);
+    int epicId = taskManagerSubTask.createEpic(epic);
     SubTask subTask = new SubTask("название", "описание", Status.NEW, epicId);
-    int taskId = taskManager.createSubTask(subTask);
+    int taskId = taskManagerSubTask.createSubTask(subTask);
     Task taskToComparison = new SubTask(2, "название", "описание", Status.DONE, epicId);
 
 

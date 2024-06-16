@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("Таск")
 class TaskTest {
 
-    TaskManager taskManager = Managers.getDefault();
+    TaskManager taskManagerTask = Managers.getDefault();
     Task task =new Task("название1","описание1",Status.NEW);
-    int taskId = taskManager.createTask(task);
+    int taskId = taskManagerTask.createTask(task);
     Task taskToComparison = new Task(1,"название","описание",Status.DONE);
 
     @Test
