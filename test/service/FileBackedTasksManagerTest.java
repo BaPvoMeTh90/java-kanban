@@ -25,7 +25,7 @@ public class FileBackedTasksManagerTest {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        file1 = File.createTempFile("resources", "testToLoad.csv");
+        file1 = new File("resources", "testToLoad.csv");
 
         manager = new FileBackedTasksManager(Managers.getDefaultHistory(), file1);
     }
@@ -40,6 +40,9 @@ public class FileBackedTasksManagerTest {
         } catch (IOException e) {
             throw new ManagerSaveException("Файл Отсуствует");
         }
+        manager.deleteAllTasks();
+        manager.deleteAllSubTasks();
+        manager.deleteAllEpic();
     }
 
     @Test
@@ -64,7 +67,8 @@ public class FileBackedTasksManagerTest {
         List<Task> list = loadedManager.getTasks();
         int lengthShouldBe = 0;
         assertEquals(lengthShouldBe, list.size(), "загружн не пустой файл");
-        loadedManager.createTask(new Task("", "", Status.NEW));
+        int taskID = loadedManager.createTask(new Task("", "", Status.NEW));
+
         List<Task> list1 = loadedManager.getTasks();
         int lengthShouldBe1 = 1;
         assertEquals(lengthShouldBe1, list1.size(), "файл не записан");

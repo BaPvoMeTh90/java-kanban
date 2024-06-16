@@ -4,6 +4,7 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,13 @@ class InMemoryTaskManagerTest {
         taskManager = Managers.getDefault();
     }
 
+    @AfterEach
+    public void afterEach() {
+        taskManager.deleteAllTasks();
+        taskManager.deleteAllSubTasks();
+        taskManager.deleteAllEpic();
+    }
+
     @Test
     @DisplayName("задача должна создаться")
     void shouldBeCreatedTask() {
@@ -43,6 +51,7 @@ class InMemoryTaskManagerTest {
         assertNotNull(tasks, "Задачи не возвращаются.");
         assertEquals(1, tasks.size(), "Неверное количество задач.");
         assertEquals(task, tasks.get(0), "Задачи не совпадают.");
+
     }
 
     @Test
@@ -50,9 +59,9 @@ class InMemoryTaskManagerTest {
     void shouldBeCreatedEpic() {
 
         epic = new Epic("Epic create", "Test createEpic description");
-        final int epicId = taskManager.createEpic(epic);
+        int epicId = taskManager.createEpic(epic);
 
-        final Task savedEpic = taskManager.getEpic(epicId);
+        Task savedEpic = taskManager.getEpic(epicId);
 
         assertNotNull(savedEpic, "Задача не найдена.");
         assertEquals(epic, savedEpic, "Задачи не совпадают.");
@@ -62,6 +71,7 @@ class InMemoryTaskManagerTest {
         assertNotNull(epics, "Задачи не возвращаются.");
         assertEquals(1, epics.size(), "Неверное количество задач.");
         assertEquals(epic, epics.get(0), "Задачи не совпадают.");
+
     }
 
     @Test
@@ -89,11 +99,11 @@ class InMemoryTaskManagerTest {
     @DisplayName("Добавление в список и поиск по ID")
     public void shouldAddAngGetById(){
         task = new Task("Test create", "Test createTask description", Status.NEW);
-        final int taskId = taskManager.createTask(task);
+        int taskId = taskManager.createTask(task);
         epic = new Epic("Epic create", "Test createEpic description");
-        final int epicId = taskManager.createEpic(epic);
+        int epicId = taskManager.createEpic(epic);
         subTask = new SubTask("SubTask create", "Test createSubTask description", Status.NEW, epic.getTaskId());
-        final int subTaskId = taskManager.createSubTask(subTask);
+        int subTaskId = taskManager.createSubTask(subTask);
 
         assertEquals(task, taskManager.getTask(taskId), "Сохнаренные задачи не совпадают");
         assertEquals(epic, taskManager.getEpic(epicId), "Сохнаренные Эпики не совпадают");
@@ -106,9 +116,9 @@ class InMemoryTaskManagerTest {
     @DisplayName("Сравнение созданной и сохраненной задач")
     public void equalsTask() {
         task = new Task("Test create", "Test createTask description", Status.NEW);
-        final int taskId = taskManager.createTask(task);
+        int taskId = taskManager.createTask(task);
 
-        final Task savedTask = taskManager.getTask(taskId);
+        Task savedTask = taskManager.getTask(taskId);
 
         assertEquals(task.getDescription(), savedTask.getDescription(),  "По описанию.");
         assertEquals(task.getTaskId(), savedTask.getTaskId(),  "По Id.");
@@ -119,11 +129,11 @@ class InMemoryTaskManagerTest {
     @DisplayName("Сравнение созданного и сохраненного Эпиков")
     public void equalsEpic() {
         epic = new Epic("Test create", "Test createTask description");
-        final int taskId = taskManager.createEpic(epic);
+        int taskId = taskManager.createEpic(epic);
         subTask = new SubTask("SubTask create", "Test createSubTask description", Status.NEW, epic.getTaskId());
-        final int subTaskId = taskManager.createSubTask(subTask);
+        int subTaskId = taskManager.createSubTask(subTask);
 
-        final Epic savedEpic = taskManager.getEpic(taskId);
+        Epic savedEpic = taskManager.getEpic(taskId);
 
         assertEquals(epic.getDescription(), savedEpic.getDescription(),  "По описанию.");
         assertEquals(epic.getTaskId(), savedEpic.getTaskId(),  "По Id.");

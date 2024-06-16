@@ -1,5 +1,6 @@
 package model;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,13 @@ class TaskTest {
         taskManager = Managers.getDefault();
     }
 
+    @AfterEach
+    public void afterEach() {
+        taskManager.deleteAllTasks();
+        taskManager.deleteAllSubTasks();
+        taskManager.deleteAllEpic();
+    }
+
     @Test
     @DisplayName("Таск должен совпадать с копией")
     void shouldBeEqualsToCopy (){
@@ -26,7 +34,4 @@ class TaskTest {
         Task taskToComparison = new Task(1, "название", "описание", Status.DONE);
         assertEquals(task, taskToComparison, "Сравнение по: id");
     }
-
-
-
 }

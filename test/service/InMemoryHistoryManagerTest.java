@@ -4,6 +4,7 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,13 @@ class InMemoryHistoryManagerTest {
     @BeforeEach
     public void beforeEach() {
         taskManager = Managers.getDefault();
+    }
+
+    @AfterEach
+    public void afterEach() {
+        taskManager.deleteAllTasks();
+        taskManager.deleteAllSubTasks();
+        taskManager.deleteAllEpic();
     }
 
     @Test
