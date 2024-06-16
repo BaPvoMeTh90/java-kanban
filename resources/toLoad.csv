@@ -1,4 +1,3 @@
 id,type,name,status,description,epic
-1,Task, ,NEW, ,
-2,Epic, ,NEW, ,
-3,SubTask,,NEW,,2
+1,Epic,название,NEW,описание,
+2,SubTask,название,NEW,описание,1
