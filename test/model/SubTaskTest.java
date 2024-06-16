@@ -13,16 +13,16 @@ class SubTaskTest {
 
     Epic epic = new Epic("название", "описание");
     int epicId = taskManager.createEpic(epic);
-    SubTask subTask =new SubTask(2,"название1","описание1", Status.NEW, epic.getTaskId());
-    SubTask subTaskToComparison =new SubTask("название","описание", Status.NEW, epic.getTaskId());
-    int SubTaskId= taskManager.createSubTask(subTaskToComparison);
+    SubTask subTask = new SubTask("название", "описание", Status.NEW, epicId);
+    int taskId = taskManager.createSubTask(subTask);
+    Task taskToComparison = new SubTask(2, "название", "описание", Status.DONE, epicId);
+
 
 
     @Test
     @DisplayName("Субтаск должен совпадать с копией")
     void shouldBeEqualsToCopy (){
-        assertEquals(subTask, subTaskToComparison, "Сравнение по: ID");
+        assertEquals(subTask, taskToComparison, "Сравнение по: ID");
     }
-
 
 }
