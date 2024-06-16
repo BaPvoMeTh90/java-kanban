@@ -1,6 +1,8 @@
 package service;
 
+import model.Epic;
 import model.Status;
+import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,9 +22,11 @@ public class FileBackedTasksManagerTest {
     TaskManager loadedManager;
     File file1;
 
+
     @BeforeEach
-    public void beforeEach() {
-        file1 = new File("resources", "testToLoad.csv");
+    public void beforeEach() throws IOException {
+        //file1 = File.createTempFile("resources", "testToLoad.csv");
+        file1 = File.createTempFile("resources", "toLoadTest.csv");
         manager = new FileBackedTasksManager(Managers.getDefaultHistory(), file1);
     }
 
@@ -39,14 +43,18 @@ public class FileBackedTasksManagerTest {
     }
 
     @Test
-    @DisplayName("сохранение  загрузка нескольких задач")
-    public void saveTasks() {
-        manager.createTask(new Task("", "", Status.NEW));
-        manager.createTask(new Task("", "", Status.NEW));
+    @DisplayName("сохраненные и загруженные таски одинаковые")
+    public void saveAndLoadedTaskAreEqual() {
+        int taskId1 = manager.createTask(new Task(" ", " ", Status.NEW));
+        Task task1 = manager.getTask(taskId1);
+        int taskId2 = manager.createEpic(new Epic(" ", " "));
+        Epic task2 = manager.getEpic(taskId2);
+        int taskId3 = manager.createSubTask(new SubTask("", "", Status.NEW, 2));
+        SubTask task3 = manager.getSubTask(taskId3);
         loadedManager = FileBackedTasksManager.loadFromFile(file1);
-        List<Task> list = loadedManager.getTasks();
-        int lengthShouldBe = 2;
-        assertEquals(lengthShouldBe, list.size(), "не совпадает сохранение");
+        assertEquals(manager.getTask(taskId1).toString(), loadedManager.getTask(taskId1).toString(), "Таски не одинаковы");
+        assertEquals(manager.getEpic(taskId2).toString(), loadedManager.getEpic(taskId2).toString(), "Таски не одинаковы");
+        assertEquals(manager.getSubTask(taskId3).toString(), loadedManager.getSubTask(taskId3).toString(), "Таски не одинаковы");
     }
 
     @Test
