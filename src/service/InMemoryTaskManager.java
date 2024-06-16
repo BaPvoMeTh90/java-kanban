@@ -18,6 +18,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     int counter = 0;
 
+    void setCounter(int i) {
+        counter = i;
+    }
+
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }

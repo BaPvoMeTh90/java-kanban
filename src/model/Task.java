@@ -34,8 +34,15 @@ public class Task {
         this.description = description;
     }
 
+    public Integer getEpicId() {
+        return null;
+    }
 
-    public int getTaskId() {
+    public TaskType getTaskType() {
+        return TaskType.Task;
+    }
+
+    public Integer getTaskId() {
         return taskId;
     }
 
@@ -67,6 +74,7 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
+
     @Override
     public String toString() {
         return "Task{" +
@@ -88,4 +96,5 @@ public class Task {
     public int hashCode() {
         return Objects.hash(taskId);
     }
+
 }
