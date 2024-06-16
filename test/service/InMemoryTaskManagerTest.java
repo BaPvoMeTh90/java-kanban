@@ -151,12 +151,11 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    @DisplayName("СубТАску не добавить в себя Эпиком")
+    @DisplayName("СубТаску не добавить в себя Эпиком")
     public void shouldNotBeAddedAsEpic(){
-        SubTask subTask = new SubTask(1,"Название","ОПисание",Status.NEW,1);
-        int id = taskManager.createSubTask(subTask);
-        System.out.println(taskManager.getSubTasks());
-        assertEquals(0,id, "СубТАск добавлен В эпик суб таски");
+        int ids = taskManager.createSubTask(new SubTask(1, " ", " ", Status.NEW, 1));
+        taskManager.getSubTask(ids);
+        assertEquals(null, taskManager.getSubTask(ids), "СубТаск добавлен В эпик суб таски");
 
     }
 }
