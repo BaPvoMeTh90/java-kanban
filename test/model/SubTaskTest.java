@@ -36,5 +36,4 @@ class SubTaskTest {
 
         assertEquals(subTask, taskToComparison, "Сравнение по: ID");
     }
-
 }

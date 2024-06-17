@@ -35,7 +35,4 @@ class EpicTest {
         Task taskToComparison = new Epic(1, "название", "описание");
         assertEquals(epic, taskToComparison, "Сравнение по id не успешно");
     }
-
-
-
 }
