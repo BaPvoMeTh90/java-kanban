@@ -16,7 +16,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     private File file = new File("resources", "toLoad.csv");
-    ;
+
     private final String firstString = "id,type,name,status,description,epic";
 
     public FileBackedTasksManager(HistoryManager historyManager, File file) {
