@@ -10,14 +10,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private final File file;
-
-    private final String firstString = "id,type,name,status,description,epic";
 
     public FileBackedTasksManager(HistoryManager historyManager) {
         super(historyManager);
-        file = new File("resources", "toLoad.csv");
     }
+
+    private File file = new File("resources", "toLoad.csv");
+    ;
+    private final String firstString = "id,type,name,status,description,epic";
 
     public FileBackedTasksManager(HistoryManager historyManager, File file) {
         super(historyManager);
@@ -58,7 +58,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         for (SubTask st : manager.subTasks.values()) {
             manager.epics.get(st.getEpicId()).addSubTask(st.getTaskId());
         }
-        counter = (maxID);
+        manager.counter = (maxID);
         return manager;
     }
 

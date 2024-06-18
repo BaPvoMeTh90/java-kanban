@@ -4,7 +4,6 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DisplayName("ИнМемориТаскМенеджерТест")
 class InMemoryTaskManagerTest {
 
-    TaskManager taskManager;
+    private TaskManager taskManager = Managers.getDefault();
+    ;
     Task task;
     Epic epic;
 
@@ -27,26 +27,19 @@ class InMemoryTaskManagerTest {
         taskManager = Managers.getDefault();
     }
 
-    @AfterEach
-    public void afterEach() {
-        taskManager.deleteAllTasks();
-        taskManager.deleteAllSubTasks();
-        taskManager.deleteAllEpic();
-    }
-
     @Test
     @DisplayName("задача должна создаться")
     void shouldBeCreatedTask() {
 
         task = new Task("Test create", "Test createTask description", Status.NEW);
-        final int taskId = taskManager.createTask(task);
+        int taskId = taskManager.createTask(task);
 
-        final Task savedTask = taskManager.getTask(taskId);
+        Task savedTask = taskManager.getTask(taskId);
 
         assertNotNull(savedTask, "Задача не найдена.");
         assertEquals(task, savedTask, "Задачи не совпадают.");
 
-        final List<Task> tasks = taskManager.getTasks();
+        List<Task> tasks = taskManager.getTasks();
 
         assertNotNull(tasks, "Задачи не возвращаются.");
         assertEquals(1, tasks.size(), "Неверное количество задач.");
@@ -66,7 +59,7 @@ class InMemoryTaskManagerTest {
         assertNotNull(savedEpic, "Задача не найдена.");
         assertEquals(epic, savedEpic, "Задачи не совпадают.");
 
-        final List<Epic> epics = taskManager.getEpics();
+        List<Epic> epics = taskManager.getEpics();
 
         assertNotNull(epics, "Задачи не возвращаются.");
         assertEquals(1, epics.size(), "Неверное количество задач.");
@@ -79,17 +72,17 @@ class InMemoryTaskManagerTest {
     void shouldBeCreatedSubTask() {
 
         epic = new Epic("Epic create", "Test createEpic description");
-        final int epicId = taskManager.createEpic(epic);
+        int epicId = taskManager.createEpic(epic);
 
         subTask = new SubTask("SubTask create", "Test createSubTask description", Status.NEW, epic.getTaskId());
-        final int subTaskId = taskManager.createSubTask(subTask);
+        int subTaskId = taskManager.createSubTask(subTask);
 
-        final Task savedSubTask = taskManager.getSubTask(subTaskId);
+        Task savedSubTask = taskManager.getSubTask(subTaskId);
 
         assertNotNull(savedSubTask, "Задача не найдена.");
         assertEquals(subTask, savedSubTask, "Задачи не совпадают.");
 
-        final List<SubTask> subTasks = taskManager.getSubTasks();
+        List<SubTask> subTasks = taskManager.getSubTasks();
 
         assertNotNull(subTasks, "Задачи не возвращаются.");
         assertEquals(1, subTasks.size(), "Неверное количество задач.");
