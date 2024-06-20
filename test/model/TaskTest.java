@@ -11,16 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TaskTest {
 
     TaskManager taskManager = Managers.getDefault();
-    Task task =new Task("название1","описание1",Status.NEW);
-    int taskId = taskManager.createTask(task);
-    Task taskToComparison = new Task(1,"название","описание",Status.DONE);
 
     @Test
     @DisplayName("Таск должен совпадать с копией")
     void shouldBeEqualsToCopy (){
+        Task task = new Task("название1", "описание1", Status.NEW);
+        int taskId = taskManager.createTask(task);
+        Task taskToComparison = new Task(1, "название", "описание", Status.DONE);
         assertEquals(task, taskToComparison, "Сравнение по: id");
     }
-
-
-
 }

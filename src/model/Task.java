@@ -34,8 +34,11 @@ public class Task {
         this.description = description;
     }
 
+    public TaskType getTaskType() {
+        return TaskType.Task;
+    }
 
-    public int getTaskId() {
+    public Integer getTaskId() {
         return taskId;
     }
 
@@ -67,6 +70,16 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
+    public String toFileString() {
+        String[] string = {Integer.toString(getTaskId()),
+                getTaskType().toString(),
+                getTitle(),
+                getTaskStatus().toString(),
+                getDescription(),
+                ""};
+        return String.join(",", string);
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -88,4 +101,5 @@ public class Task {
     public int hashCode() {
         return Objects.hash(taskId);
     }
+
 }

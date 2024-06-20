@@ -1,9 +1,15 @@
 package model;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import service.ManagerSaveException;
 import service.Managers;
 import service.TaskManager;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,18 +17,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SubTaskTest {
     TaskManager taskManager = Managers.getDefault();
 
-    Epic epic = new Epic("название", "описание");
-    int epicId = taskManager.createEpic(epic);
-    SubTask subTask =new SubTask(2,"название1","описание1", Status.NEW, epic.getTaskId());
-    SubTask subTaskToComparison =new SubTask("название","описание", Status.NEW, epic.getTaskId());
-    int SubTaskId= taskManager.createSubTask(subTaskToComparison);
-
+    @AfterEach
+    public void afterEach() {
+        try {
+            if (!Files.exists(Path.of("resources/toLoad.csv"))) {
+                Files.createFile(Path.of("resources/toLoad.csv"));
+            }
+        } catch (IOException e) {
+            throw new ManagerSaveException("Отсутствует файл для записи данных");
+        }
+    }
 
     @Test
     @DisplayName("Субтаск должен совпадать с копией")
     void shouldBeEqualsToCopy (){
-        assertEquals(subTask, subTaskToComparison, "Сравнение по: ID");
-    }
+        Epic epic = new Epic("Субтаск1", "описание");
+        int epicId = taskManager.createEpic(epic);
+        SubTask subTask = new SubTask("название", "описание", Status.NEW, epicId);
+        int taskId = taskManager.createSubTask(subTask);
+        Task taskToComparison = new SubTask(2, "название", "описание", Status.DONE, epicId);
 
+        assertEquals(subTask, taskToComparison, "Сравнение по: ID");
+    }
 
 }
