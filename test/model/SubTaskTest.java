@@ -37,8 +37,7 @@ class SubTaskTest {
         int epicId = taskManager.createEpic(epic);
         SubTask subTask = new SubTask("название", "описание", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(0), epicId);
         int taskId = taskManager.createSubTask(subTask);
-        Task taskToComparison = new SubTask("название", "описание", Status.DONE, LocalDateTime.now(), Duration.ofMinutes(0), epicId);
-
+        SubTask taskToComparison = taskManager.getSubTask(taskId);
         assertEquals(subTask, taskToComparison, "Сравнение по: ID");
     }
 
