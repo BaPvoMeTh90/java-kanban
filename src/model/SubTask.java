@@ -1,10 +1,28 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class SubTask extends Task {
     private final int epicId;
 
+    public SubTask(int taskId, String title, String description, Status taskStatus, LocalDateTime startTime, Duration duration, int epicId) {
+        super(taskId, title, description, taskStatus, startTime, duration);
+        this.epicId = epicId;
+    }
+
+    public SubTask(String title, String description, Status taskStatus, LocalDateTime startTime, Duration duration, int epicId) {
+        super(title, description, taskStatus, startTime, duration);
+        this.epicId = epicId;
+    }
+
     public SubTask(String title, String description, Status taskStatus, int epicId) {
         super(title, description, taskStatus);
+        this.epicId = epicId;
+    }
+
+    public SubTask(String title, String description, int epicId) {
+        super(title, description);
         this.epicId = epicId;
     }
 
@@ -13,13 +31,19 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
+    public SubTask(int taskId, String title, String description, int epicId) {
+        super(taskId, title, description);
+        this.epicId = epicId;
+    }
+
+
     public Integer getEpicId() {
         return epicId;
     }
 
     @Override
     public TaskType getTaskType() {
-        return TaskType.SubTask;
+        return TaskType.SUBTASK;
     }
 
     public String toFileString() {
@@ -28,7 +52,10 @@ public class SubTask extends Task {
                 getTitle(),
                 getTaskStatus().toString(),
                 getDescription(),
-                getEpicId().toString()};
+                getEpicId().toString(),
+                String.valueOf(getDuration().toMinutes()),           //id,type,name,status,description,epic, duration, startTime
+                String.valueOf(getStartTime())
+        };
         return String.join(",", string);
     }
 
@@ -39,7 +66,9 @@ public class SubTask extends Task {
                 ", taskId=" + taskId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", taskStatus=" + taskStatus +
+                ", taskStatus=" + taskStatus + '\'' +
+                ", duration='" + getDuration().toMinutes() + '\'' +
+                ", startTime='" + startTime +
                 '}';
     }
 
