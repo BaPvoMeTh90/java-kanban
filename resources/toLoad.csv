@@ -1,3 +1,2 @@
-id,type,name,status,description,epic
-1,Epic,Субтаск1,NEW,описание,
-2,SubTask,название,NEW,описание,1
+id,type,name,status,description,epic,duration,startTime
+1,TASK,,NEW,,,10,2024-08-05T12:51:32.384044200

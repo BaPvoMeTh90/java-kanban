@@ -10,6 +10,8 @@ import service.TaskManager;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,10 +35,9 @@ class SubTaskTest {
     void shouldBeEqualsToCopy (){
         Epic epic = new Epic("Субтаск1", "описание");
         int epicId = taskManager.createEpic(epic);
-        SubTask subTask = new SubTask("название", "описание", Status.NEW, epicId);
+        SubTask subTask = new SubTask("название", "описание", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(0), epicId);
         int taskId = taskManager.createSubTask(subTask);
-        Task taskToComparison = new SubTask(2, "название", "описание", Status.DONE, epicId);
-
+        SubTask taskToComparison = taskManager.getSubTask(taskId);
         assertEquals(subTask, taskToComparison, "Сравнение по: ID");
     }
 

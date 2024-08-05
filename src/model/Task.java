@@ -1,6 +1,8 @@
 package model;
 
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -8,6 +10,30 @@ public class Task {
     protected String title;
     protected String description;
     protected Status taskStatus;
+    protected LocalDateTime startTime;
+    protected Duration duration;
+
+    public Task(int taskId,
+                String title,
+                String description,
+                Status taskStatus,
+                LocalDateTime startTime,
+                Duration duration) {
+        this.taskId = taskId;
+        this.title = title;
+        this.description = description;
+        this.taskStatus = taskStatus;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
+
+    public Task(String title, String description, Status taskStatus, LocalDateTime startTime, Duration duration) {
+        this.title = title;
+        this.description = description;
+        this.taskStatus = taskStatus;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
 
 
     public Task(String title, String description, Status taskStatus) {
@@ -35,7 +61,7 @@ public class Task {
     }
 
     public TaskType getTaskType() {
-        return TaskType.Task;
+        return TaskType.TASK;
     }
 
     public Integer getTaskId() {
@@ -76,17 +102,21 @@ public class Task {
                 getTitle(),
                 getTaskStatus().toString(),
                 getDescription(),
-                ""};
+                "",                        //id,type,name,status,description,epic, duration, startTime
+                String.valueOf(getDuration().toMinutes()),
+                String.valueOf(getStartTime())};
         return String.join(",", string);
     }
 
     @Override
     public String toString() {
         return "Task{" +
-                "taskId=" + taskId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", taskStatus=" + taskStatus +
+                "taskId =" + taskId +
+                ", title ='" + title + '\'' +
+                ", description ='" + description + '\'' +
+                ", taskStatus =" + taskStatus + '\'' +
+                ", startTime =" + startTime + '\'' +
+                ", Duration=" + duration.toMinutes() + '\'' +
                 '}';
     }
 
@@ -102,4 +132,23 @@ public class Task {
         return Objects.hash(taskId);
     }
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plus(duration);
+    }
 }
