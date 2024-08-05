@@ -19,7 +19,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private File file = new File("resources", "toLoad.csv");
 
-    private final String firstString = "id,type,name,status,description,epic, duration, startTime";
+    private final String firstString = "id,type,name,status,description,epic,duration,startTime";
 
     public FileBackedTasksManager(HistoryManager historyManager, File file) {
         super(historyManager);
@@ -61,6 +61,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
         for (SubTask st : manager.subTasks.values()) {
             manager.epics.get(st.getEpicId()).addSubTask(st.getTaskId());
+        }
+        for (Epic epic : manager.epics.values()) {
+            manager.changeEpicTiming(epic);
         }
         manager.counter = (maxID);
         return manager;
@@ -104,17 +107,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         Integer subsEpic = null;
         Duration duration = Duration.ofMinutes(Long.parseLong(file[6]));
         LocalDateTime startTime = LocalDateTime.parse(file[7]);
-        //id,type,name,status,description,epic, duration, startTime
 
-        if (type.equals("SUBTASK")) {
-            subsEpic = Integer.parseInt(file[5]);
-        }
         if (type.equals("EPIC")) {
             Epic epic = new Epic(title, description);
             epic.setTaskId(id);
             epic.setTaskStatus(status);
             return epic;
         } else if (type.equals("SUBTASK")) {
+            subsEpic = Integer.parseInt(file[5]);
             SubTask subtask = new SubTask(title, description, status, startTime, duration, subsEpic);
             subtask.setTaskId(id);
             return subtask;

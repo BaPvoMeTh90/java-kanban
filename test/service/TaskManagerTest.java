@@ -132,20 +132,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         int newTaskID = taskManager.createTask(newTask);
         assertEquals(2, taskManager.getTasks().size(), "обе задачи в списке");
     }
-//    @Test
-//    @DisplayName("Эпик не добавить в себя подзадачей")
-//    public void shouldNotBeAddedAsSubTask(){
-//        Epic epic = new Epic(0, "", "");
-//       assertEquals(0, epic.epicsSubTasks.size(), "epic добавляется в себя как субтакс");
-//    }
-//
-//    @Test
-//    @DisplayName("СубТаску не добавить в себя Эпиком")
-//    public void shouldNotBeAddedAsEpic(){
-//        int ids = taskManager.createSubTask(new SubTask(1, " ", " ", Status.NEW,  LocalDateTime.now(), Duration.ofMinutes(0),1));
-//        assertEquals(null, taskManager.getSubTask(ids), "СубТаск добавлен В эпик суб таски");
-//
-//    }
 
     @Test
     @DisplayName("Эпик корректно меняет статус")

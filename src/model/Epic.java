@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 
 public class Epic extends Task {
-    LocalDateTime endTime;
-    public ArrayList<Integer> epicsSubTasks = new ArrayList<>();
+    private LocalDateTime endTime;
+    private final ArrayList<Integer> epicsSubTasks = new ArrayList<>();
 
     public Epic(String title, String description) {
         super(title, description, Status.NEW);
@@ -42,8 +42,8 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return "Epic{" +
-                "subTasks=" + getSubTasks() +
-                ", taskId=" + taskId +
+                "subTasks=" + epicsSubTasks + '\'' +
+                ", taskId=" + taskId + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", taskStatus=" + taskStatus +
