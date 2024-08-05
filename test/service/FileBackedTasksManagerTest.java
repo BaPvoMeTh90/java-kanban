@@ -46,9 +46,27 @@ class FileBackedTasksManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         int taskId3 = taskManager.createSubTask(new SubTask("", "", Status.NEW, LocalDateTime.now().plusMinutes(1), Duration.ofMinutes(0), 2));
         SubTask task3 = taskManager.getSubTask(taskId3);
         TaskManager loadedManager = FileBackedTasksManager.loadFromFile(temp);
-        assertEquals(taskManager.getTask(taskId1).toString(), loadedManager.getTask(taskId1).toString(), "Таски не одинаковы");
-        assertEquals(taskManager.getEpic(taskId2).toString(), loadedManager.getEpic(taskId2).toString(), "Таски не одинаковы");
-        assertEquals(taskManager.getSubTask(taskId3).toString(), loadedManager.getSubTask(taskId3).toString(), "Таски не одинаковы");
+        assertEquals(taskManager.getTask(taskId1).getTaskId(), loadedManager.getTask(taskId1).getTaskId(), "Таски не одинаковы по ID");
+        assertEquals(taskManager.getTask(taskId1).getTitle(), loadedManager.getTask(taskId1).getTitle(), "Таски не одинаковы по Title");
+        assertEquals(taskManager.getTask(taskId1).getDescription(), loadedManager.getTask(taskId1).getDescription(), "Таски не одинаковы по Description");
+        assertEquals(taskManager.getTask(taskId1).getTaskStatus(), loadedManager.getTask(taskId1).getTaskStatus(), "Таски не одинаковы по Status");
+        assertEquals(taskManager.getTask(taskId1).getStartTime(), loadedManager.getTask(taskId1).getStartTime(), "Таски не одинаковы по StartTime");
+        assertEquals(taskManager.getTask(taskId1).getDuration(), loadedManager.getTask(taskId1).getDuration(), "Таски не одинаковы по Duration");
+        assertEquals(taskManager.getEpic(taskId2).getTaskId(), loadedManager.getEpic(taskId2).getTaskId(), "Эпики не одинаковы по ID");
+        assertEquals(taskManager.getEpic(taskId2).getTitle(), loadedManager.getEpic(taskId2).getTitle(), "Эпики не одинаковы по Title");
+        assertEquals(taskManager.getEpic(taskId2).getDescription(), loadedManager.getEpic(taskId2).getDescription(), "Эпики не одинаковы по Description()");
+        assertEquals(taskManager.getEpic(taskId2).getTaskStatus(), loadedManager.getEpic(taskId2).getTaskStatus(), "Эпики не одинаковы по TaskStatus");
+        assertEquals(taskManager.getEpic(taskId2).getSubTasks(), loadedManager.getEpic(taskId2).getSubTasks(), "Эпики не одинаковы по SubTasks");
+        assertEquals(taskManager.getEpic(taskId2).getStartTime(), loadedManager.getEpic(taskId2).getStartTime(), "Эпики не одинаковы по StartTime");
+        assertEquals(taskManager.getEpic(taskId2).getDuration(), loadedManager.getEpic(taskId2).getDuration(), "Эпики не одинаковы по Duration");
+        assertEquals(taskManager.getSubTask(taskId3).getTaskId(), loadedManager.getSubTask(taskId3).getTaskId(), "СубТаски не одинаковы по TaskId");
+        assertEquals(taskManager.getSubTask(taskId3).getTitle(), loadedManager.getSubTask(taskId3).getTitle(), "СубТаски не одинаковы по Title");
+        assertEquals(taskManager.getSubTask(taskId3).getDescription(), loadedManager.getSubTask(taskId3).getDescription(), "СубТаски не одинаковы по Description");
+        assertEquals(taskManager.getSubTask(taskId3).getTaskStatus(), loadedManager.getSubTask(taskId3).getTaskStatus(), "СубТаски не одинаковы по TaskStatus");
+        assertEquals(taskManager.getSubTask(taskId3).getEpicId(), loadedManager.getSubTask(taskId3).getEpicId(), "СубТаски не одинаковы по EpicId");
+        assertEquals(taskManager.getSubTask(taskId3).getStartTime(), loadedManager.getSubTask(taskId3).getStartTime(), "СубТаски не одинаковы по StartTime");
+        assertEquals(taskManager.getSubTask(taskId3).getDuration(), loadedManager.getSubTask(taskId3).getDuration(), "СубТаски не одинаковы по Duration");
+        assertEquals(taskManager.getPrioritizedTasks(), loadedManager.getPrioritizedTasks(), "Сортированные списки не одинаковы");
     }
 
 }
