@@ -2,7 +2,6 @@ package service.http.handler;
 
 import com.sun.net.httpserver.HttpExchange;
 import model.Epic;
-import model.SubTask;
 import model.Task;
 import service.TaskManager;
 import service.exeptions.IntersectionException;
@@ -45,7 +44,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
                     List<Epic> tasks = taskManager.getEpics();
                     String response = HttpTaskServer.getGson().toJson(tasks);
                     sendText(httpExchange, response);
-                } else if (subPath!=null) {
+                } else if (subPath != null) {
                     ArrayList<Integer> epicsSubTasks = taskManager.getEpic(id).getSubTasks();
                     String response = HttpTaskServer.getGson().toJson(epicsSubTasks);
                     sendText(httpExchange, response);
@@ -61,7 +60,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
             case "DELETE":
                 Integer deleteId = getIdFromPath(httpExchange.getRequestURI().getPath());
                 try {
-                    if(taskManager.getSubTask(deleteId) != null) {
+                    if (taskManager.getSubTask(deleteId) != null) {
                         taskManager.deleteTask(deleteId);
                         writeResponse(httpExchange, "SubTask с id " + deleteId + "- удален.", 200);
                     } else {
@@ -73,7 +72,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
             default:
                 try {
                     sendNotFound(httpExchange, "Такого запроса не существует");
-                } catch (Exception e){
+                } catch (Exception e) {
                     sendServerError(httpExchange);
                 }
         }
