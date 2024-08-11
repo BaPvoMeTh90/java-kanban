@@ -72,8 +72,8 @@ public class TaskHttpHandler extends BaseHttpHandler {
                 }
             case "DELETE":
                 Integer deleteId = getIdFromPath(httpExchange.getRequestURI().getPath());
-                try{
-                    if(taskManager.getTask(deleteId) != null) {
+                try {
+                    if (taskManager.getTask(deleteId) != null) {
                         taskManager.deleteTask(deleteId);
                         writeResponse(httpExchange, "Таск с id " + deleteId + "- удален.", 200);
                     } else {
@@ -85,7 +85,7 @@ public class TaskHttpHandler extends BaseHttpHandler {
             default:
                 try {
                     sendNotFound(httpExchange, "Такого запроса не существует");
-                } catch (Exception e){
+                } catch (Exception e) {
                     sendServerError(httpExchange);
                 }
         }
