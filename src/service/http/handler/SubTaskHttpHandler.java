@@ -2,7 +2,6 @@ package service.http.handler;
 
 import com.sun.net.httpserver.HttpExchange;
 import model.SubTask;
-import model.Task;
 import service.TaskManager;
 import service.exeptions.IntersectionException;
 import service.http.HttpTaskServer;
@@ -23,7 +22,7 @@ public class SubTaskHttpHandler extends BaseHttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         System.out.println("Началась обработка /SubTask запроса от клиента.");
 
-        switch(httpExchange.getRequestMethod()) {
+        switch (httpExchange.getRequestMethod()) {
             case "POST":
                 InputStream inputStream = httpExchange.getRequestBody();
                 String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -49,16 +48,16 @@ public class SubTaskHttpHandler extends BaseHttpHandler {
                 }
             case "GET":
                 Integer id = getIdFromPath(httpExchange.getRequestURI().getPath());
-                if(id == null) {
+                if (id == null) {
                     try {
                         List<SubTask> tasks = taskManager.getSubTasks();
                         String response = HttpTaskServer.getGson().toJson(tasks);
                         sendText(httpExchange, response);
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         sendServerError(httpExchange);
                     }
-                }else {
-                    try{
+                } else {
+                    try {
                         if (taskManager.getSubTask(id) != null) {
                             SubTask task = taskManager.getSubTask(id);
                             String response = HttpTaskServer.getGson().toJson(task);
@@ -66,14 +65,14 @@ public class SubTaskHttpHandler extends BaseHttpHandler {
                         } else {
                             sendNotFound(httpExchange, "SubTask с id "+id+" отсутствует.");
                         }
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         sendServerError(httpExchange);
                     }
                 }
             case "DELETE":
                 Integer deleteId = getIdFromPath(httpExchange.getRequestURI().getPath());
-                try{
-                    if(taskManager.getSubTask(deleteId) != null) {
+                try {
+                    if (taskManager.getSubTask(deleteId) != null) {
                         taskManager.deleteTask(deleteId);
                         writeResponse(httpExchange, "SubTask с id " + deleteId + "- удален.", 200);
                     } else {
@@ -85,7 +84,7 @@ public class SubTaskHttpHandler extends BaseHttpHandler {
             default:
                 try {
                     sendNotFound(httpExchange, "Такого запроса не существует");
-                }catch (Exception e){
+                } catch (Exception e) {
                     sendServerError(httpExchange);
                 }
         }

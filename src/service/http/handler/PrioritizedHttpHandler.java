@@ -18,7 +18,7 @@ public class PrioritizedHttpHandler extends BaseHttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         System.out.println("Началась обработка /Prioritized запроса от клиента.");
-        try{
+        try {
             if (httpExchange.getRequestMethod().equals("GET")) {
                 List<Task> prioritized = taskManager.getPrioritizedTasks();
                 String response = HttpTaskServer.getGson().toJson(prioritized);
@@ -26,7 +26,7 @@ public class PrioritizedHttpHandler extends BaseHttpHandler {
             } else {
                 writeResponse(httpExchange, "Такого запроса не существует", 404);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             sendServerError(httpExchange);
         }
     }

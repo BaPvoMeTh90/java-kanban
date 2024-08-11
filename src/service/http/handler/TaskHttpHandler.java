@@ -23,7 +23,7 @@ public class TaskHttpHandler extends BaseHttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         System.out.println("Началась обработка /Task запроса от клиента.");
 
-        switch(httpExchange.getRequestMethod()) {
+        switch (httpExchange.getRequestMethod()) {
             case "POST":
                 InputStream inputStream = httpExchange.getRequestBody();
                 String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -49,16 +49,16 @@ public class TaskHttpHandler extends BaseHttpHandler {
                 }
             case "GET":
                 Integer id = getIdFromPath(httpExchange.getRequestURI().getPath());
-                if(id == null) {
+                if (id == null) {
                     try {
                         List<Task> tasks = taskManager.getTasks();
                         String response = HttpTaskServer.getGson().toJson(tasks);
                         sendText(httpExchange, response);
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         sendServerError(httpExchange);
                     }
-                }else {
-                    try{
+                } else {
+                    try {
                         if (taskManager.getTask(id) != null) {
                             Task task = taskManager.getTask(id);
                             String response = HttpTaskServer.getGson().toJson(task);
@@ -66,7 +66,7 @@ public class TaskHttpHandler extends BaseHttpHandler {
                         } else {
                             sendNotFound(httpExchange, "Task с id "+id+" отсутствует.");
                         }
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         sendServerError(httpExchange);
                     }
                 }
@@ -85,7 +85,7 @@ public class TaskHttpHandler extends BaseHttpHandler {
             default:
                 try {
                     sendNotFound(httpExchange, "Такого запроса не существует");
-                }catch (Exception e){
+                } catch (Exception e){
                     sendServerError(httpExchange);
                 }
         }

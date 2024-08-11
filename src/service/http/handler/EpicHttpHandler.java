@@ -25,7 +25,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         System.out.println("Началась обработка /Epic запроса от клиента.");
 
-        switch(httpExchange.getRequestMethod()) {
+        switch (httpExchange.getRequestMethod()) {
             case "POST":
                 InputStream inputStream = httpExchange.getRequestBody();
                 String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -41,7 +41,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
             case "GET":
                 Integer id = getIdFromPath(httpExchange.getRequestURI().getPath());
                 String subPath = getSubPathFromPath(httpExchange.getRequestURI().getPath());
-                if(id == null) {
+                if (id == null) {
                     List<Epic> tasks = taskManager.getEpics();
                     String response = HttpTaskServer.getGson().toJson(tasks);
                     sendText(httpExchange, response);
@@ -60,7 +60,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
                 }
             case "DELETE":
                 Integer deleteId = getIdFromPath(httpExchange.getRequestURI().getPath());
-                try{
+                try {
                     if(taskManager.getSubTask(deleteId) != null) {
                         taskManager.deleteTask(deleteId);
                         writeResponse(httpExchange, "SubTask с id " + deleteId + "- удален.", 200);
@@ -73,7 +73,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
             default:
                 try {
                     sendNotFound(httpExchange, "Такого запроса не существует");
-                }catch (Exception e){
+                } catch (Exception e){
                     sendServerError(httpExchange);
                 }
         }
