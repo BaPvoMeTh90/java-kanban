@@ -63,7 +63,7 @@ public class SubTaskHttpHandler extends BaseHttpHandler {
                             String response = HttpTaskServer.getGson().toJson(task);
                             sendText(httpExchange, response);
                         } else {
-                            sendNotFound(httpExchange, "SubTask с id "+id+" отсутствует.");
+                            sendNotFound(httpExchange, "SubTask с id " + id + " отсутствует.");
                         }
                     } catch (Exception e) {
                         sendServerError(httpExchange);
@@ -76,7 +76,7 @@ public class SubTaskHttpHandler extends BaseHttpHandler {
                         taskManager.deleteTask(deleteId);
                         writeResponse(httpExchange, "SubTask с id " + deleteId + "- удален.", 200);
                     } else {
-                        sendNotFound(httpExchange, "SubTask с id "+deleteId+" отсутствует. Уточните id задачи и повторите запрос");
+                        sendNotFound(httpExchange, "SubTask с id " + deleteId + " отсутствует. Уточните id задачи и повторите запрос");
                     }
                 } catch (Exception e) {
                     sendServerError(httpExchange);

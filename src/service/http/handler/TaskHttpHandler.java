@@ -64,7 +64,7 @@ public class TaskHttpHandler extends BaseHttpHandler {
                             String response = HttpTaskServer.getGson().toJson(task);
                             sendText(httpExchange, response);
                         } else {
-                            sendNotFound(httpExchange, "Task с id "+id+" отсутствует.");
+                            sendNotFound(httpExchange, "Task с id " + id + " отсутствует.");
                         }
                     } catch (Exception e) {
                         sendServerError(httpExchange);
@@ -77,7 +77,7 @@ public class TaskHttpHandler extends BaseHttpHandler {
                         taskManager.deleteTask(deleteId);
                         writeResponse(httpExchange, "Таск с id " + deleteId + "- удален.", 200);
                     } else {
-                        sendNotFound(httpExchange, "Task с id "+deleteId+" отсутствует. Уточните id задачи и повторите запрос");
+                        sendNotFound(httpExchange, "Task с id " + deleteId + " отсутствует. Уточните id задачи и повторите запрос");
                     }
                 } catch (Exception e) {
                     sendServerError(httpExchange);

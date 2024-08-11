@@ -55,7 +55,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
                         String response = HttpTaskServer.getGson().toJson(task);
                         sendText(httpExchange, response);
                     } else {
-                        sendNotFound(httpExchange, "Epic с id "+id+" отсутствует.");
+                        sendNotFound(httpExchange, "Epic с id " + id + " отсутствует.");
                     }
                 }
             case "DELETE":
@@ -65,7 +65,7 @@ public class EpicHttpHandler extends BaseHttpHandler {
                         taskManager.deleteTask(deleteId);
                         writeResponse(httpExchange, "SubTask с id " + deleteId + "- удален.", 200);
                     } else {
-                        sendNotFound(httpExchange, "SubTask с id "+deleteId+" отсутствует. Уточните id задачи и повторите запрос");
+                        sendNotFound(httpExchange, "SubTask с id " + deleteId + " отсутствует. Уточните id задачи и повторите запрос");
                     }
                 } catch (Exception e) {
                     sendServerError(httpExchange);
