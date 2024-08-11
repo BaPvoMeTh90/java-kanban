@@ -18,7 +18,7 @@ public class HistoryHttpHandler extends BaseHttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         System.out.println("Началась обработка /History запроса от клиента.");
-        try{
+        try {
             if (httpExchange.getRequestMethod().equals("GET")) {
                 List<Task> history = taskManager.getHistory();
                 String response = HttpTaskServer.getGson().toJson(history);
@@ -26,7 +26,7 @@ public class HistoryHttpHandler extends BaseHttpHandler {
             } else {
                 sendNotFound(httpExchange, "Такого запроса не существует");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             sendServerError(httpExchange);
         }
     }
