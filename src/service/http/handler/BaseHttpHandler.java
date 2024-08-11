@@ -55,7 +55,7 @@ public abstract class BaseHttpHandler implements HttpHandler{
 
     protected Integer getIdFromPath(String path) {
         String[] splitStrings = path.split("/");// а из path — профессию и имя
-        if(splitStrings.length >= 3){
+        if (splitStrings.length >= 3) {
             return Integer.parseInt(splitStrings[2]);
         }
         return null;
@@ -63,7 +63,7 @@ public abstract class BaseHttpHandler implements HttpHandler{
 
     protected String getSubPathFromPath(String path) {
         String[] splitStrings = path.split("/");// а из path — профессию и имя
-        if(splitStrings.length >= 4){
+        if (splitStrings.length >= 4) {
             return splitStrings[3];
         }
         return null;
