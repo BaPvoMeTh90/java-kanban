@@ -50,15 +50,15 @@ public class TaskHttpHandler extends BaseHttpHandler {
             case "GET":
                 Integer id = getIdFromPath(httpExchange.getRequestURI().getPath());
                 if(id == null) {
-                    //try {
+                    try {
                         List<Task> tasks = taskManager.getTasks();
                         String response = HttpTaskServer.getGson().toJson(tasks);
                         sendText(httpExchange, response);
-                    //}catch (Exception e) {
-                      //  sendServerError(httpExchange);
-                    //}
+                    }catch (Exception e) {
+                        sendServerError(httpExchange);
+                    }
                 }else {
-                   // try{
+                    try{
                         if (taskManager.getTask(id) != null) {
                             Task task = taskManager.getTask(id);
                             String response = HttpTaskServer.getGson().toJson(task);
@@ -66,9 +66,9 @@ public class TaskHttpHandler extends BaseHttpHandler {
                         } else {
                             sendNotFound(httpExchange, "Task с id "+id+" отсутствует.");
                         }
-                    //}catch (Exception e) {
-                      //  sendServerError(httpExchange);
-                       // }
+                    }catch (Exception e) {
+                        sendServerError(httpExchange);
+                    }
                 }
             case "DELETE":
                 Integer deleteId = getIdFromPath(httpExchange.getRequestURI().getPath());
