@@ -1,15 +1,23 @@
 package service.http.handler;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import service.TaskManager;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public abstract class BaseHttpHandler implements HttpHandler {
-
+    protected final TaskManager manager;
+    protected Gson gson;
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+
+    public BaseHttpHandler(TaskManager manager, Gson gson) {
+        this.manager = manager;
+        this.gson = gson;
+    }
 
 
     protected void sendText(HttpExchange h, String text) throws IOException {

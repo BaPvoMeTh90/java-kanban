@@ -1,5 +1,6 @@
 package service.http.handler;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import model.Task;
 import service.TaskManager;
@@ -9,10 +10,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class HistoryHttpHandler extends BaseHttpHandler {
-    private final TaskManager taskManager;
-
-    public HistoryHttpHandler(TaskManager taskManager) {
-        this.taskManager = taskManager;
+    public HistoryHttpHandler(TaskManager manager, Gson gson) {
+        super(manager,gson);
     }
 
     @Override
@@ -20,8 +19,8 @@ public class HistoryHttpHandler extends BaseHttpHandler {
         System.out.println("Началась обработка /History запроса от клиента.");
         try {
             if (httpExchange.getRequestMethod().equals("GET")) {
-                List<Task> history = taskManager.getHistory();
-                String response = HttpTaskServer.getGson().toJson(history);
+                List<Task> history = manager.getHistory();
+                String response = gson.toJson(history);
                 sendText(httpExchange, response);
             } else {
                 sendNotFound(httpExchange, "Такого запроса не существует");

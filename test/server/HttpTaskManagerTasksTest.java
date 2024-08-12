@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,15 +23,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("HttpTaskManagerTasksTest")
 public class HttpTaskManagerTasksTest {
-    TaskManager manager = new InMemoryTaskManager(Managers.getDefaultHistory());
-    HttpTaskServer taskServer = new HttpTaskServer(manager);
-    Gson gson = HttpTaskServer.getGson();
-
-    public HttpTaskManagerTasksTest() throws IOException {
-    }
+    TaskManager manager;
+    HttpTaskServer taskServer;
+    Gson gson;
 
     @BeforeEach
     public void setUp() {
+        manager = new InMemoryTaskManager(Managers.getDefaultHistory());
+        taskServer = new HttpTaskServer(manager);
+        gson = HttpTaskServer.getGson();
         manager.deleteAllTasks();
         manager.deleteAllSubTasks();
         manager.deleteAllEpic();
@@ -44,7 +44,7 @@ public class HttpTaskManagerTasksTest {
     }
 
     @Test
-    @DisplayName("test task")
+    @DisplayName("Проверка создания задачи")
     public void testTaskCreate() throws IOException, InterruptedException {
         Task task = new Task("Test 2", "Testing task 2", Status.NEW, LocalDateTime.now().minusDays(15), Duration.ofMinutes(5));
         String taskJson = gson.toJson(task);

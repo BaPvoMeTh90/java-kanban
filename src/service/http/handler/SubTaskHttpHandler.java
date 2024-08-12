@@ -1,5 +1,6 @@
 package service.http.handler;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import model.SubTask;
 import service.TaskManager;
@@ -12,10 +13,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class SubTaskHttpHandler extends BaseHttpHandler {
-    private final TaskManager taskManager;
-
-    public SubTaskHttpHandler(TaskManager taskManager) {
-        this.taskManager = taskManager;
+    public SubTaskHttpHandler(TaskManager manager, Gson gson) {
+        super(manager, gson);
     }
 
     @Override
@@ -26,41 +25,45 @@ public class SubTaskHttpHandler extends BaseHttpHandler {
             case "POST":
                 InputStream inputStream = httpExchange.getRequestBody();
                 String body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-                SubTask postTask = HttpTaskServer.getGson().fromJson(body, SubTask.class);
-                if (postTask.getTaskId() == null || postTask.getTaskId() == 0) {
-                    try {
-                        taskManager.createSubTask(postTask);
-                        writeResponse(httpExchange, "Задача создана.", 201);
-                    } catch (IntersectionException e) {
-                        sendHasInteractions(httpExchange);
-                    } catch (Exception e) {
-                        sendServerError(httpExchange);
+                if (!body.isEmpty()) {
+                    SubTask postTask = gson.fromJson(body, SubTask.class);
+                    if (postTask.getTaskId() == null || postTask.getTaskId() == 0) {
+                        try {
+                            manager.createSubTask(postTask);
+                            writeResponse(httpExchange, "Задача создана.", 201);
+                        } catch (IntersectionException e) {
+                            sendHasInteractions(httpExchange);
+                        } catch (Exception e) {
+                            sendServerError(httpExchange);
+                        }
+                    } else {
+                        try {
+                            manager.updateSubTask(postTask);
+                            writeResponse(httpExchange, "Задача обновлена.", 201);
+                        } catch (IntersectionException e) {
+                            sendHasInteractions(httpExchange);
+                        } catch (Exception e) {
+                            sendServerError(httpExchange);
+                        }
                     }
                 } else {
-                    try {
-                        taskManager.updateSubTask(postTask);
-                        writeResponse(httpExchange, "Задача обновлена.", 201);
-                    } catch (IntersectionException e) {
-                        sendHasInteractions(httpExchange);
-                    } catch (Exception e) {
-                        sendServerError(httpExchange);
-                    }
+                    throw new RuntimeException("Данные не переданы");
                 }
             case "GET":
                 Integer id = getIdFromPath(httpExchange.getRequestURI().getPath());
                 if (id == null) {
                     try {
-                        List<SubTask> tasks = taskManager.getSubTasks();
-                        String response = HttpTaskServer.getGson().toJson(tasks);
+                        List<SubTask> tasks = manager.getSubTasks();
+                        String response = gson.toJson(tasks);
                         sendText(httpExchange, response);
                     } catch (Exception e) {
                         sendServerError(httpExchange);
                     }
                 } else {
                     try {
-                        if (taskManager.getSubTask(id) != null) {
-                            SubTask task = taskManager.getSubTask(id);
-                            String response = HttpTaskServer.getGson().toJson(task);
+                        if (manager.getSubTask(id) != null) {
+                            SubTask task = manager.getSubTask(id);
+                            String response = gson.toJson(task);
                             sendText(httpExchange, response);
                         } else {
                             sendNotFound(httpExchange, "SubTask с id " + id + " отсутствует.");
@@ -72,8 +75,8 @@ public class SubTaskHttpHandler extends BaseHttpHandler {
             case "DELETE":
                 Integer deleteId = getIdFromPath(httpExchange.getRequestURI().getPath());
                 try {
-                    if (taskManager.getSubTask(deleteId) != null) {
-                        taskManager.deleteTask(deleteId);
+                    if (manager.getSubTask(deleteId) != null) {
+                        manager.deleteTask(deleteId);
                         writeResponse(httpExchange, "SubTask с id " + deleteId + "- удален.", 200);
                     } else {
                         sendNotFound(httpExchange, "SubTask с id " + deleteId + " отсутствует. Уточните id задачи и повторите запрос");
