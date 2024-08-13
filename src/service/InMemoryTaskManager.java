@@ -4,6 +4,7 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
+import service.exeptions.IntersectionException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -204,7 +205,7 @@ public class InMemoryTaskManager implements TaskManager {
             addToPrioritizedTasks(task);
             tasks.put(task.getTaskId(), task);
         } else {
-            System.out.println("Такого задания нет");
+            System.out.println("Такого Task нет");
         }
     }
 

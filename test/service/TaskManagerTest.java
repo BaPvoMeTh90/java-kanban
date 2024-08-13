@@ -6,6 +6,7 @@ import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import service.exeptions.IntersectionException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
